@@ -32,7 +32,8 @@ public:
 		cout << "\nPlease enter user name: ";
 		string UserName = clsInputValidate::ReadString();
 		      
-		  
+		  //Karim
+		//karim
 
 		while (!clsUser::IsUserExist(UserName))
 		{
