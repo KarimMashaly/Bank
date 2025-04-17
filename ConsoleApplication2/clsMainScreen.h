@@ -152,7 +152,7 @@ public:
 	static void ShowMainMenu()
 	{
 		system("cls");
-		_DrawScreenHeader("\t\tMain Screen");
+		_DrawScreenHeader("\t      Main Screen");
 
 		cout << setw(37) << left << "" << "===========================================\n";
 		cout << setw(37) << left << "" << "\t\t\tMain Menu\n";
