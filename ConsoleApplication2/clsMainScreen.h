@@ -146,13 +146,13 @@ private:
 		case enMainMenuOptions::eTransactions:
 			system("cls");
 			_ShowTransactionsScreen();
-			ShowMainMenu();
+			_GoBackToMainMenu();
 			break;
 
 		case enMainMenuOptions::eManageUsers:
 			system("cls");
 			_ShowManageUserScreen();
-			ShowMainMenu();
+			_GoBackToMainMenu();
 			break;
 
 		case enMainMenuOptions::eLogout:
