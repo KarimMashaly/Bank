@@ -9,6 +9,8 @@ class clsUser : public clsPerson
 {
 private:
 
+	struct stLoginRegister;
+
 	enum enMode
 	{
 		enEmptyMode = 0,
@@ -58,7 +60,6 @@ private:
 	{
 		return clsUser(enMode::enEmptyMode, "", "", "", "", "", "", 0);
 	}
-
 
 	string _ConvertUserObjectToLine(clsUser User, string Separator = "#//#")
 	{
@@ -140,6 +141,20 @@ private:
 		return Line;
 	}
 
+	static stLoginRegister _ConvertLoginRegisterLineToStruct(string Line)
+	{
+		stLoginRegister LoginRegister;
+
+		vector<string> vLogin = clsString::Split(Line, "#//#");
+
+		LoginRegister.Date_Time = vLogin[0];
+		LoginRegister.UserName = vLogin[1];
+		LoginRegister.Password = vLogin[2];
+		LoginRegister.Permissions = stoi(vLogin[3]);
+
+		return LoginRegister;
+	}
+
 public:
 
 	 bool IsEmpty()
@@ -147,9 +162,20 @@ public:
 		return (_Mode == enMode::enEmptyMode);
 	}
 
+	 struct stLoginRegister
+	 {
+		 string Date_Time;
+		 string UserName;
+		 string Password;
+		 int Permissions;
+	 };
+
+	
+
 	enum enPermissions {
 		eAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
-		pUpdateClients = 8, pFindClient = 16, pTranactions = 32, pManageUsers = 64
+		pUpdateClients = 8, pFindClient = 16, pTranactions = 32, pManageUsers = 64,
+		eLoginRegister = 128
 	};
 	
 	clsUser(enMode Mode,  string FirstName,string LastName, string Email, string Phone,
@@ -351,5 +377,27 @@ public:
 
 	}
 
+	static vector<stLoginRegister>GetLoginRegisterList()
+	{
+		vector<stLoginRegister>vLogins;
+
+		fstream MyFile;
+		MyFile.open("Login Registers.txt", ios::in);//Read Only
+
+		if (MyFile.is_open())
+		{
+			string Line;
+
+			while (getline(MyFile, Line))
+			{
+				stLoginRegister Login = _ConvertLoginRegisterLineToStruct(Line);
+				vLogins.push_back(Login);
+			}
+
+			MyFile.close();
+		}
+
+		return vLogins;
+	}
 };
 
