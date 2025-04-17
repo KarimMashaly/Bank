@@ -8,6 +8,7 @@
 #include"clsFindClientScreen.h"
 #include"clsTransactionsScreen.h"
 #include"clsManageUserScreen.h"
+#include"clsLoginScreen.h"
 
 class clsMainScreen : protected clsScreen
 {
@@ -74,7 +75,22 @@ private:
 
 	static void _ShowLogoutScreen()
 	{
-		cout << "\nLogout Screen will be here...\n";
+		//cout << "\nLogout Screen will be here...\n";
+
+		CurrentUser = clsUser::Find("", "");
+
+		//clsLoginScreen::ShowLoginScreen(); This approach is not suitable in terms of stack usage
+		// or program design.
+		 
+		// The Login Screen calls the Main Menu Screen inside the "_Login" method.
+	
+		// The Main Menu Screen will run and the Login Screen will be paused, waiting for it to finish.
+		
+		// Once the Main Menu finishes, control returns to the Login Screen to continue executing
+		// the remaining code.
+		
+		// This call chain can lead to deep nesting and potentional stack overflow issues
+		// if repeated multiple times
 	}
 
 	static short _ReadMainMenuOption()
