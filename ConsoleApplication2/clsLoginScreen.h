@@ -8,15 +8,25 @@ class clsLoginScreen : protected clsScreen
 {
 
 private:
-	static void _Login()
+	static bool _Login()
 	{
 		bool LoginFailed = false;
+		int FailedLoginCount = 0;
 
 		do
 		{
 			if (LoginFailed)
 			{
+				FailedLoginCount++;
+
 				cout << "\nInvalid Username/Password!\n";
+				printf("You have %d trial(s) to login\n", (3-FailedLoginCount));//2//1
+
+				if(FailedLoginCount == 3)
+				{
+					cout << "\nYou are locked after 3 failed trials\n";
+					return false;
+				}
 			}
 
 			cout << "\nEnter Username: ";
@@ -32,15 +42,16 @@ private:
 		} while (LoginFailed);
 
 		clsMainScreen::ShowMainMenu();
+		return true;
 	}
 
 public:
 
-	static void ShowLoginScreen()
+	static bool ShowLoginScreen()
 	{
 		_DrawScreenHeader("\t      Login Screen");
 
-		_Login();
+		return _Login();
 	}
 
 };
