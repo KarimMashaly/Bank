@@ -310,5 +310,21 @@ public:
 		return true;
 	}
 
+	bool CheckAccessPermissions(enPermissions Permissions)
+	{
+		if (this->Permissions == enPermissions::eAll)
+		{
+			return true;
+		}
+
+		if ((Permissions & this->Permissions) == Permissions)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 };
 
