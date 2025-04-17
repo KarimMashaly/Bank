@@ -15,6 +15,9 @@ private:
 	int _Day;
 	int _Month;
 	int _Year;
+	int _Hour;
+	int _Minute;
+	int _Second;
 
 public:
 
@@ -22,11 +25,16 @@ public:
 	clsDate()
 	{
 		time_t t = time(0);
+
 		tm* now = localtime(&t);
 
 		_Day = now->tm_mday;
 		_Month = now->tm_mon + 1;
 		_Year = now->tm_year + 1900;
+		_Hour = now->tm_hour;
+		_Minute = now->tm_min;
+		_Second = now->tm_sec;
+
 	}
 
 	clsDate(string Date)
@@ -324,5 +332,21 @@ public:
 	{
 		return DateToString(*this);
 	}
+
+	static string GetCurrentTime(clsDate Date)
+	{
+		return to_string(Date._Hour) + ":" + to_string(Date._Minute) + ":" + to_string(Date._Second);
+	}
+
+	string GetCurrentTime()
+	{
+		return GetCurrentTime(*this);
+	}
+	
+	static string GetSystemDateTimeString()
+	{
+		return clsDate::DateToString(clsDate()) + " - " + clsDate::GetCurrentTime(clsDate());
+	}
+
 };
 

@@ -4,6 +4,7 @@
 #include"Global.h"
 #include"clsMainScreen.h"
 
+
 class clsLoginScreen : protected clsScreen
 {
 
@@ -41,7 +42,9 @@ private:
 
 		} while (LoginFailed);
 
+		CurrentUser.RegisterLogin();
 		clsMainScreen::ShowMainMenu();
+
 		return true;
 	}
 

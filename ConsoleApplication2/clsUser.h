@@ -3,6 +3,7 @@
 #include<vector>
 #include<fstream>
 #include"clsString.h"
+#include"clsDate.h"
 
 class clsUser : public clsPerson
 {
@@ -129,6 +130,14 @@ private:
 	void _AddNew()
 	{
 		_AddDataLineToFile(_ConvertUserObjectToLine(*this));
+	}
+
+	string _PrepareLoginRecord(string Separator = "#//#")
+	{
+		string Line = clsDate::GetSystemDateTimeString() + Separator
+			+ UserName + Separator + Password + Separator +to_string(Permissions);
+
+		return Line;
 	}
 
 public:
@@ -326,5 +335,21 @@ public:
 			return false;
 		}
 	}
+
+	void RegisterLogin()
+	{
+		string stDataLine = _PrepareLoginRecord();
+
+		fstream MyFile;
+		MyFile.open("Login Registers.txt", ios::out | ios::app);
+
+		if (MyFile.is_open())
+		{
+			MyFile << stDataLine << endl;
+			MyFile.close();
+		}
+
+	}
+
 };
 
