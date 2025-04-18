@@ -1,8 +1,10 @@
 #pragma once
 #include<iostream>
 #include"clsPerson.h"
+#include"clsDate.h"
 #include<fstream>
 #include"clsString.h"
+#include"Global.h"
 
 using namespace std;
 
@@ -137,6 +139,36 @@ private:
 					MyFile << DataLine << endl;
 				}
 			}
+
+			MyFile.close();
+		}
+
+	}
+
+	string _PrepareTransferLogRecord( clsBankClient DestinationClient, double Amount, string Separator)
+	{
+
+		string TransferLogRecord = clsDate::GetSystemDateTimeString() + Separator;
+		TransferLogRecord += _AccountNumber + Separator + DestinationClient.AccountNumber + Separator;
+		TransferLogRecord += to_string(Amount) + Separator + to_string(_AccountBalance) + Separator;
+		TransferLogRecord += to_string(DestinationClient.AccountBalance) + Separator;
+		TransferLogRecord += CurrentUser.UserName;
+
+		return TransferLogRecord;
+
+	}
+
+	void _RegisterTheOperationOfTransfer(clsBankClient DestinationClient, double Amount, string Separator = "#//#")
+	{
+
+		fstream MyFile;
+		MyFile.open("Transfer Log.txt", ios::out | ios::app);
+
+		if (MyFile.is_open())
+		{
+			string Line = _PrepareTransferLogRecord(DestinationClient, Amount, Separator);
+
+			MyFile << Line << endl;
 
 			MyFile.close();
 		}
@@ -364,7 +396,11 @@ public:
 
 		Withdraw(Amount);
 		DestinationClient.Deposit(Amount);
+		_RegisterTheOperationOfTransfer(DestinationClient, Amount);
 		return true;
 	}
+
+	
+
 };
 

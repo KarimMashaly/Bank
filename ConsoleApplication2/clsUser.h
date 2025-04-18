@@ -17,7 +17,8 @@ private:
 		eUpdateMode = 1,
 		eAddNewMode = 2
 	};
-	 enMode _Mode;
+
+	enMode _Mode;
 	string _UserName;
 	string _Password;
 	int _Permission;
@@ -169,8 +170,6 @@ public:
 		 string Password;
 		 int Permissions;
 	 };
-
-	
 
 	enum enPermissions {
 		eAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
