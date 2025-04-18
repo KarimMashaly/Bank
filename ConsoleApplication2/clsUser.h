@@ -1,9 +1,10 @@
 #pragma once
 #include"clsPerson.h"
-#include<vector>
-#include<fstream>
 #include"clsString.h"
 #include"clsDate.h"
+#include"clsUtil.h"
+#include<vector>
+#include<fstream>
 
 class clsUser : public clsPerson
 {
@@ -18,6 +19,7 @@ private:
 		eAddNewMode = 2
 	};
 
+	static const int _Key = 3;
 	enMode _Mode;
 	string _UserName;
 	string _Password;
@@ -30,7 +32,8 @@ private:
 		vector<string>vUserData = clsString::Split(Line, "#//#");
 
 		return clsUser(enMode::eUpdateMode, vUserData[0], vUserData[1], vUserData[2],
-			vUserData[3], vUserData[4], vUserData[5], stoi(vUserData[6]));
+			vUserData[3], vUserData[4], clsUtil::DecryptText(vUserData[5], _Key),
+			stoi(vUserData[6]));
 
 	}
 
@@ -70,7 +73,7 @@ private:
 		UserRecord += User.Email + Separator;
 		UserRecord += User.Phone + Separator;
 		UserRecord += User.UserName + Separator;
-		UserRecord += User.Password + Separator;
+		UserRecord += clsUtil::EncryptText(User.Password, _Key) + Separator;
 		UserRecord += to_string(User.Permissions);
 
 		return UserRecord;
@@ -136,8 +139,9 @@ private:
 
 	string _PrepareLoginRecord(string Separator = "#//#")
 	{
+		
 		string Line = clsDate::GetSystemDateTimeString() + Separator
-			+ UserName + Separator + Password + Separator +to_string(Permissions);
+			+ UserName + Separator + clsUtil::EncryptText( Password, _Key) + Separator +to_string(Permissions);
 
 		return Line;
 	}
@@ -147,6 +151,8 @@ private:
 		stLoginRegister LoginRegister;
 
 		vector<string> vLogin = clsString::Split(Line, "#//#");
+
+		vLogin[2] = clsUtil::DecryptText(vLogin[2], _Key);
 
 		LoginRegister.Date_Time = vLogin[0];
 		LoginRegister.UserName = vLogin[1];
