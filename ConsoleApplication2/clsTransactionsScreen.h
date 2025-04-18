@@ -4,7 +4,7 @@
 #include"clsDepositScreen.h"
 #include"clsWithdrawScreen.h"
 #include"clsTotalBalancesScreen.h"
-
+#include"clsTransferScreen.h"
 #include<iomanip>
 
 using namespace std;
@@ -18,7 +18,8 @@ private:
 		eDeposit = 1,
 		eWithdraw = 2,
 		eTotalBalances = 3,
-		eMainMenu = 4
+		eTransfer = 4,
+		eMainMenu = 5
 	};
 
 	static void _ShowDepositScreen()
@@ -37,6 +38,12 @@ private:
 	{
 		//cout << "\nTotal Balances Screen will be here...\n";
 		clsTotalBalancesScreen::ShowTotalBalancesScreen();
+	}
+
+	static void _ShowTransferScreen()
+	{
+		//Transfer Screen will be here....
+		clsTransferScreen::ShowTransferScreen();
 	}
 
 	static void _GoBackToTransactionsMenu()
@@ -70,6 +77,12 @@ private:
 			_GoBackToTransactionsMenu();
 			break;
 
+		case _enTransactionsMenuOptions::eTransfer:
+			system("cls");
+			_ShowTransferScreen();
+			_GoBackToTransactionsMenu();
+			break;
+
 		case _enTransactionsMenuOptions::eMainMenu:
 			break;
 		}
@@ -78,8 +91,8 @@ private:
 	static short _ReadTransactionsMenuOption()
 	{
 
-		cout << setw(37) << left << "" << "Choose what do you want to do [1 to 4]? ";
-		short Choice = clsInputValidate::ReadShortNumberBetween(1, 4, "The number is not between 1 and 4, Please enter another one: ");
+		cout << setw(37) << left << "" << "Choose what do you want to do [1 to 5]? ";
+		short Choice = clsInputValidate::ReadShortNumberBetween(1, 5, "The number is not between 1 and 5, Please enter another one: ");
 
 		return Choice;
 
@@ -104,7 +117,8 @@ public:
 		cout << setw(37) << left << "" << "\t[1] Deposit.\n";
 		cout << setw(37) << left << "" << "\t[2] Withdraw.\n";
 		cout << setw(37) << left << "" << "\t[3] Total Balances.\n";
-		cout << setw(37) << left << "" << "\t[4] Main Menu.\n";
+		cout << setw(37) << left << "" << "\t[4] Transfer.\n";
+		cout << setw(37) << left << "" << "\t[5] Main Menu.\n";
 		cout << setw(37) << left << "" << "===========================================\n";
 
 		_PerformTransactionsMenuOption((_enTransactionsMenuOptions)_ReadTransactionsMenuOption());

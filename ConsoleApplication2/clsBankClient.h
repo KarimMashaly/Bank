@@ -357,5 +357,14 @@ public:
 
 	}
 
+	bool Transfer(double Amount, clsBankClient &DestinationClient)
+	{
+		if (Amount > _AccountBalance)
+			return false;
+
+		Withdraw(Amount);
+		DestinationClient.Deposit(Amount);
+		return true;
+	}
 };
 
