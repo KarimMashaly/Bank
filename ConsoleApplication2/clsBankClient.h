@@ -12,6 +12,7 @@ class clsBankClient : public clsPerson
 {
 private:
 
+	struct stTransferLogRecord;
 	enum enMode { enEmptyMode = 0, enUpdateMode = 1 , enAddNewMode};
 
 	enMode _Mode;
@@ -174,8 +175,60 @@ private:
 		}
 
 	}
+	
+	static stTransferLogRecord _ConvertTransferLogLineToRecord(string Line)
+	{
+		stTransferLogRecord Rec;
+		vector<string>vLogin = clsString::Split(Line, "#//#");
+
+		Rec.Date_Time = vLogin[0];
+		Rec.SourceAccountNumber = vLogin[1];
+		Rec.DestinationAccountNumber = vLogin[2];
+		Rec.TransferAmount = stod(vLogin[3]);
+		Rec.SourceAccountBalance = stod(vLogin[4]);
+		Rec.DestinationAccountBalance = stod(vLogin[5]);
+		Rec.UserName = vLogin[6];
+
+		return Rec;
+	}
+
+	static vector<stTransferLogRecord> _GetTransferLogList()
+	{
+		vector<stTransferLogRecord>vRecords;
+
+		fstream MyFile;
+		MyFile.open("Transfer Log.txt", ios::in);//Read only
+
+		if (MyFile.is_open())
+		{
+			string Line;
+			stTransferLogRecord Rec;
+
+			while (getline(MyFile, Line))
+			{
+				Rec = _ConvertTransferLogLineToRecord(Line);
+				vRecords.push_back(Rec);
+			}
+
+			MyFile.close();
+		}
+
+		return vRecords;
+	}
+
 
 public:
+
+	struct stTransferLogRecord
+	{
+		string Date_Time;
+		string SourceAccountNumber;
+		string DestinationAccountNumber;
+		double TransferAmount;
+		double SourceAccountBalance;
+		double DestinationAccountBalance;
+		string UserName;
+	};
 
 	bool IsClientEmpty()
 	{
@@ -399,8 +452,11 @@ public:
 		_RegisterTheOperationOfTransfer(DestinationClient, Amount);
 		return true;
 	}
-
 	
+	static vector<stTransferLogRecord> GetTransferLogList()
+	{
+		return _GetTransferLogList();
+	}
 
 };
 
