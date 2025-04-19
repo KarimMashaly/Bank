@@ -10,6 +10,7 @@
 #include"clsManageUserScreen.h"
 #include"clsLoginScreen.h"
 #include"clsLoginRegistersScreen.h"
+#include"clsCurrencyExchangeScreen.h"
 
 class clsMainScreen : protected clsScreen
 {
@@ -25,7 +26,8 @@ private:
 		eTransactions = 6,
 		eManageUsers = 7,
 		eLoginRegister = 8,
-		eLogout = 9
+		eCurrencyExchange = 9,
+		eLogout = 10
 	};
 
 	static void _ShowAllClientsScreen()
@@ -81,6 +83,11 @@ private:
 		clsLoginRegistersScreen::ShowListLoginScreen();
 	}
 
+	static void _ShowCurrencyExchangeScreen()
+	{
+		clsCurrencyExchangeScreen::ShowCurrencyExchangeMenu();
+	}
+
 	static void _ShowLogoutScreen()
 	{
 		//cout << "\nLogout Screen will be here...\n";
@@ -104,8 +111,8 @@ private:
 	static short _ReadMainMenuOption()
 	{
 		short Option;
-		cout << "\t\t\t\t      Choose What do you want to de? [1 to 9]? ";
-		Option = clsInputValidate::ReadShortNumberBetween(1, 9, "The number is not between 1 and 9, Please enter another one: ");
+		cout << "\t\t\t\t      Choose What do you want to de? [1 to 10]? ";
+		Option = clsInputValidate::ReadShortNumberBetween(1, 10, "The number is not between 1 and 10, Please enter another one: ");
 
 		return Option;
 	}
@@ -168,6 +175,12 @@ private:
 			_ShowLoginRegisterScreen();
 			_GoBackToMainMenu();
 			break;
+			
+		case enMainMenuOptions::eCurrencyExchange:
+			system("cls");
+			_ShowCurrencyExchangeScreen();
+			_GoBackToMainMenu();
+			break;
 
 		case enMainMenuOptions::eLogout:
 			system("cls");
@@ -195,7 +208,8 @@ public:
 		cout << setw(37) << left << "" << "\t[6] Transactions.\n";
 		cout << setw(37) << left << "" << "\t[7] Manage Users.\n";
 		cout << setw(37) << left << "" << "\t[8] Login Register.\n";
-		cout << setw(37) << left << "" << "\t[9] Logout.\n";
+		cout << setw(37) << left << "" << "\t[9] Currency Exchange.\n";
+		cout << setw(37) << left << "" << "\t10] Logout.\n";
 		cout << setw(37) << left << "" << "===========================================\n";
 
 		_PerformMainMenuOptions((enMainMenuOptions)_ReadMainMenuOption());
