@@ -51,7 +51,20 @@ public:
 		{
 			string CurrencyCode;
 			cout << "\nPlease enter the Currency Code? ";
-			CurrencyCode = clsInputValidate::ReadString();
+			CurrencyCode = clsUtil::Trim(clsString::UpperAllLetterInString(clsInputValidate::ReadString()));
+
+			if (CurrencyCode == "EUR")
+			{
+				vector<clsCurrency>vEuroCurrencies = clsCurrency::GetEurosList();
+
+				for (clsCurrency C : vEuroCurrencies)
+				{
+					_PrintCurrency(C);
+					cout << endl;
+				}
+
+				return;
+			}
 
 			clsCurrency Currency = clsCurrency::FindByCode(CurrencyCode);
 
@@ -61,7 +74,7 @@ public:
 		{
 			string Country;
 			cout << "\nPlease enter the Country name? ";
-			Country = clsInputValidate::ReadString();
+			Country = clsUtil::Trim(clsInputValidate::ReadString());
 
 			clsCurrency Currency = clsCurrency::FindByCountry(Country);
 

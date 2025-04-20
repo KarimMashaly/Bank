@@ -53,19 +53,19 @@ private:
 		return clsCurrency(enMode::EmptyMode, "", "", "", 0);
 	}
 
-	string ConvertCurrencyObjectToLine(clsCurrency Currency, string Separator = "#//#")
+	string _ConvertCurrencyObjectToLine(clsCurrency Currency, string Separator = "#//#")
 	{
 		string Line = "";
 
 		Line += Currency.Country() + Separator;
 		Line += Currency.CurrencyCode() + Separator;
 		Line += Currency.CurrencyName() + Separator;
-		Line += Currency.Rate();
+		Line += to_string(Currency.Rate());
 
 		return Line;
 	}
 
-	void SaveCurrencyDataToFile(vector<clsCurrency>vCurrencies)
+	void _SaveCurrencyDataToFile(vector<clsCurrency>vCurrencies)
 	{
 		fstream MyFile;
 		MyFile.open("Currencies.txt", ios::out);// over write
@@ -76,7 +76,7 @@ private:
 
 			for (clsCurrency C : vCurrencies)
 			{
-				Line = ConvertCurrencyObjectToLine(C);
+				Line = _ConvertCurrencyObjectToLine(C);
 				MyFile << Line << endl;
 			}
 
@@ -90,13 +90,14 @@ private:
 
 		for (clsCurrency& C : vCurrencies)
 		{
-			if (C.CurrencyCode() == _CurrencyCode)
+			if (C.CurrencyCode() == _CurrencyCode && C.Country() == _Country)
 			{
 				C = *this;
 				break;
 			}
 		}
-		SaveCurrencyDataToFile(vCurrencies);
+
+		_SaveCurrencyDataToFile(vCurrencies);
 
 	}
 
@@ -130,6 +131,7 @@ public:
 	void UpdateRate(float NewRate)
 	{
 		_Rate = NewRate;
+		_Update();
 	}
 
 	float Rate()
@@ -210,6 +212,33 @@ public:
 	static vector<clsCurrency> GetCurrenciesList()
 	{
 		return _LoadCurrencyDataFromFile();
+	}
+
+	static vector<clsCurrency>GetEurosList()
+	{
+		vector<clsCurrency>vEuroCurrencies;
+
+		fstream MyFile;
+		MyFile.open("Currencies.txt", ios::in); // Read Only
+
+		if (MyFile.is_open())
+		{
+			string Line;
+
+			while (getline(MyFile, Line))
+			{
+				clsCurrency Currency = _ConvertLineToCurrencyObject(Line);
+
+				if (Currency.CurrencyCode() == "EUR")
+				{
+					vEuroCurrencies.push_back(Currency);
+				}
+			}
+
+			MyFile.close();
+		}
+
+		return vEuroCurrencies;
 	}
 
 };

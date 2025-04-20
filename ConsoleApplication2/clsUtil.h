@@ -252,5 +252,33 @@ public:
 			return NumberToText(Number / 1000000000) + " Billion " + NumberToText(Number % 1000000000);
 		}
 	}
+
+	static string TrimLeft(string str)
+	{
+		for (int i = 0; i < str.length(); i++)
+		{
+			if (str[i] != ' ')
+				return str.substr(i, str.length() - i);
+		}
+
+		return "";
+	}
+
+	static string TrimRight(string str)
+	{
+		for (int i = str.length() - 1; i >= 0; i--)
+		{
+			if (str[i] != ' ')
+				return str.substr(0, i + 1);
+		}
+
+		return "";
+	}
+
+	static string Trim(string str)
+	{
+		return TrimLeft(TrimRight(str));
+	}
+
 };
 
