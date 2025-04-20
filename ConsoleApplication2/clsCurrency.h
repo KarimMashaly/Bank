@@ -241,5 +241,21 @@ public:
 		return vEuroCurrencies;
 	}
 
+	double ConvertToUSD(double Amount)
+	{
+		return(double)(Amount / _Rate);
+	}
+
+	double ConvertToOtherCurrency(double Amount, clsCurrency Currency2)
+	{
+		double AmountInUSD = ConvertToUSD(Amount);
+
+		if (Currency2.CurrencyCode() == "USD")
+		{
+			return AmountInUSD;
+		}
+
+		return (double)(AmountInUSD * Currency2.Rate());
+	}
 };
 
