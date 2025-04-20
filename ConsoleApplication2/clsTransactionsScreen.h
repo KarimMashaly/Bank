@@ -106,7 +106,7 @@ private:
 	{
 
 		cout << setw(37) << left << "" << "Choose what do you want to do [1 to 6]? ";
-		short Choice = clsInputValidate::ReadShortNumberBetween(1, 6, "The number is not between 1 and 6, Please enter another one: ");
+		short Choice = clsInputValidate::ReadNumberBetween <short>(1, 6, "The number is not between 1 and 6, Please enter another one: ");
 
 		return Choice;
 

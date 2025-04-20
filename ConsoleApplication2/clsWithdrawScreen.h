@@ -53,7 +53,8 @@ public:
 		clsBankClient Client = clsBankClient::Find(AccountNumber);
 		_PrintClient(Client);
 
-		double WithdrawAmount = clsInputValidate::ReadDblNumber("\nPlease enter Withdraw amount? ");
+		cout << "\nPlease enter Withdraw amount? ";
+		double WithdrawAmount = clsInputValidate::ReadNumber<double>();
 
 		char Answer;
 		cout << "\nAre you sure you want to perform this transaction? y/n? ";

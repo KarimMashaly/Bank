@@ -36,12 +36,14 @@ private:
 
 	static double _ReadTransferAmount(clsBankClient SourceClient)
 	{
-		double TransferAmount = clsInputValidate::ReadDblNumber("\nEnter Transfer amount? ");
+		cout << "\nEnter Transfer amount? ";
+		double TransferAmount = clsInputValidate::ReadNumber<double>();
 
 		while (TransferAmount > SourceClient.AccountBalance)
 		{
 			cout << "\nAmount exceeds the available balance, ";
-			TransferAmount = clsInputValidate::ReadDblNumber("Enter another amount? ");
+			cout << "Enter another amount? ";
+			TransferAmount = clsInputValidate::ReadNumber<double>();
 		}
 
 		return TransferAmount;

@@ -25,7 +25,8 @@ private:
 		cout << "\nPlease enter a pinCode? ";
 		Client.PinCode = clsInputValidate::ReadString();
 
-		Client.AccountBalance = clsInputValidate::ReadDblNumber("\nPlease enter a account balance? ");
+		cout << "\nPlease enter a account balance? ";
+		Client.AccountBalance = clsInputValidate ::ReadNumber<double>();
 
 	}
 

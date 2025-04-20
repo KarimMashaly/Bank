@@ -45,7 +45,7 @@ public:
 
 		int Answer;
 		cout << "\nFind By: [1] Code or [2] Country? ";
-		Answer = clsInputValidate::ReadIntNumberBetween(1, 2, "The number is not between 1 and 2, Please enter another one: ");
+		Answer = clsInputValidate::ReadNumberBetween<int>(1, 2, "The number is not between 1 and 2, Please enter another one: ");
 
 		if (Answer == 1)
 		{

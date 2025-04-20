@@ -2,28 +2,15 @@
 #include<iostream>
 #include"clsDate.h"
 #include"clsUtil.h"
+#include<sstream>
 using namespace std;
 
-class clsInputValidate
+ class clsInputValidate
 {
 public:
 
-	static bool IsNumberBetween(int Number, int Start, int End)
-	{
-		return (Number >= Start && Number <= End);
-	}
-
-	static bool IsNumberBetween(short Number, short Start, short End)
-	{
-		return (Number >= Start && Number <= End);
-	}
-
-	static bool IsNumberBetween(float Number, float Start, float End)
-	{
-		return (Number >= Start && Number <= End);
-	}
-
-	static bool IsNumberBetween(double Number, double Start, double End)
+	template <typename T>
+	static bool IsNumberBetween(T Number, T Start, T End)
 	{
 		return (Number >= Start && Number <= End);
 	}
@@ -38,90 +25,12 @@ public:
 
 	}
 
-	static int ReadIntNumber(string Message)
+	template <typename T>
+	static T ReadNumber( string ErrorMessage = "Invalid Number, Please enter a valid one: ")
 	{
-		int Number = 0;
+		T Number = 0;
 		bool IsValid = true;
 
-		do
-		{
-
-			IsValid = true;
-
-			string Input;
-			cin >> Input;
-
-			for (char ch : Input)//1234
-			{
-				if (!isdigit(ch))
-				{
-					IsValid = false;
-					break;
-				}
-			}
-
-			if (IsValid)
-			{
-				Number = stoi(Input);
-				return Number;
-			}
-			else
-			{
-				cin.clear();
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				cout << Message;
-			}
-
-		} while (!IsValid);
-
-		return Number;
-	}
-
-	static short ReadShortNumber(string Message)
-	{
-		short Number = 0;
-		bool IsValid = true;
-
-		do
-		{
-
-			IsValid = true;
-
-			string Input;
-			cin >> Input;
-
-			for (char ch : Input)//1234
-			{
-				if (!isdigit(ch))
-				{
-					IsValid = false;
-					break;
-				}
-			}
-
-			if (IsValid)
-			{
-				Number = stoi(Input);
-				return Number;
-			}
-			else
-			{
-				cin.clear();
-				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-				cout << Message;
-			}
-
-		} while (!IsValid);
-
-		return Number;
-	}
-
-	static double ReadDblNumber(string Message, string ErrorMessage = "Invalid Number, Please enter a valid one: ")
-	{
-		double Number = 0;
-		bool IsValid = true;
-
-		cout << Message;
 		do
 		{
 			IsValid = true;
@@ -139,7 +48,8 @@ public:
 
 			if (IsValid)
 			{
-				Number = stoi(Input);
+				stringstream ss(Input);
+				ss >> Number;
 				return Number;
 			}
 			else
@@ -154,43 +64,16 @@ public:
 		return Number;
 	}
 
-	static int ReadIntNumberBetween(int Start, int End, string Message)
+	template <typename T>
+	static T ReadNumberBetween(T Start, T End, string Message)
 	{
-		int Number = 0;
+		T Number = 0;
 
-		Number = ReadIntNumber("Invalid number, Enter again: ");
+		Number =ReadNumber <T> ("Invalid number, Enter again: ");
 		while (!IsNumberBetween(Number, Start, End))
 		{
 			cout << Message;
-			Number = ReadIntNumber("Invalid number, Enter again: ");
-		}
-
-		return Number;
-	}
-
-	static int ReadShortNumberBetween(short Start, short End, string Message)
-	{
-		short Number = 0;
-
-		Number = ReadIntNumber("Invalid number, Enter again: ");
-		while (!IsNumberBetween(Number, Start, End))
-		{
-			cout << Message;
-			Number = ReadShortNumber("Invalid number, Enter again: ");
-		}
-
-		return Number;
-	}
-
-	static double ReadDblNumberBetween(double Start, double End, string Message)
-	{
-		double Number = 0;
-		Number = ReadDblNumber("Invalid number, Enter again: ");
-
-		while (!IsNumberBetween(Number, Start, End))
-		{
-			cout << Message;
-			Number = ReadDblNumber("Invalid number, Enter again: ");
+			Number = ReadNumber <T> ("Invalid number, Enter again: ");
 		}
 
 		return Number;
@@ -209,6 +92,7 @@ public:
 
 		return S1;
 	}
+
 };
 
 

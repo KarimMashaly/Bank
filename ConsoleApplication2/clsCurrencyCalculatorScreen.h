@@ -41,7 +41,8 @@ private:
 
 	static double _ReadAmount()
 	{
-		double Amount = clsInputValidate::ReadDblNumber("\nEnter amount to Exchange: ");
+		cout << "\nEnter amount to Exchange : ";
+		double Amount = clsInputValidate::ReadNumber<double>();
 
 		return Amount;
 	}

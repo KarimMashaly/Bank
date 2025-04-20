@@ -112,7 +112,7 @@ private:
 	{
 		short Option;
 		cout << "\t\t\t\t      Choose What do you want to de? [1 to 10]? ";
-		Option = clsInputValidate::ReadShortNumberBetween(1, 10, "The number is not between 1 and 10, Please enter another one: ");
+		Option = clsInputValidate::ReadNumberBetween<short>(1, 10, "The number is not between 1 and 10, Please enter another one: ");
 
 		return Option;
 	}
